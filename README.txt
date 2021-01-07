@@ -32,7 +32,7 @@ office@mdbootstrap.com
 
 Download From GitHub
 git clone https://github.com/reaxster/websitepricecalculator.git
-git push https://github.com/reaxster/websitepricecalculator.git
+git pull https://github.com/reaxster/websitepricecalculator.git
 
 Upload:
 git remote add origin https://github.com/reaxster/websitepricecalculator.git

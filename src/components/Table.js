@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import { MDBTable, MDBTableBody, MDBTableHead, MDBInput } from "mdbreact";
+import { MDBTable, MDBTableBody, MDBTableHead } from "mdbreact";
+
+import TableRow from "./TableRow.js";
+import "./components.css";
 
 const Table = () => {
   const staticPrice = 50;
@@ -18,92 +21,113 @@ const Table = () => {
     included: false,
     dynamicTotal: 0,
   });
-  const [login, setLogin] = useState(false);
+
+  const [login, setLogin] = useState({
+    included: false,
+    total: 0,
+  });
+
   const [reg, setReg] = useState(false);
   const [hosting, setHosting] = useState(false);
   const [maintenance, setMaintenance] = useState(false);
 
+  const handleLoginPriceInclude = () => {
+    setLogin({
+      included: !login.included,
+      total: !login.included && !isNaN(staticPage.quantity) ? loginPrice : 0,
+    });
+  };
+
   const handleStaticPriceInclude = () => {
     setStaticPage({
+      quantity: staticPage.quantity,
       included: !staticPage.included,
-      staticTotal: parseInt(parseInt(staticPage.quantity) * staticPrice),
+      staticTotal:
+        !staticPage.included && !isNaN(staticPage.quantity)
+          ? staticPrice * staticPage.quantity
+          : 0,
     });
-    if (staticPage.included || typeof staticPage.quantity === "number")
-      setStaticPage({
-        staticTotal: staticPage.quantity * staticPrice,
-      });
-    else return setStaticPage({ staticTotal: 0 });
-  };
-  const handleDynamicPriceInclude = () => {
-    setDynamicPage({
-      included: !dynamicPage.included,
-    });
-    console.log("Dynamic Page " + dynamicPage.included);
   };
 
   const handleStaticPriceQuantity = (e) => {
     setStaticPage({
-      quantity: e.target.value,
-      staticTotal: parseInt(parseInt(staticPage.quantity) * staticPrice),
+      quantity: !isNaN(e.target.value) ? parseInt(e.target.value) : 0,
+      included: staticPage.included,
+      staticTotal: staticPage.included ? staticPrice * e.target.value : 0,
+    });
+  };
+
+  //TODO:--------------------------------------
+  const handleDynamicPriceInclude = () => {
+    setDynamicPage({
+      quantity: dynamicPage.quantity,
+      included: !dynamicPage.included,
+      dynamicTotal:
+        !dynamicPage.included && !isNaN(dynamicPage.quantity)
+          ? dynamicPrice * dynamicPage.quantity
+          : 0,
+    });
+  };
+
+  const handleDynamicPriceQuantity = (e) => {
+    setDynamicPage({
+      quantity: !isNaN(e.target.value) ? parseInt(e.target.value) : 0,
+      included: dynamicPage.included,
+      dynamicTotal: dynamicPage.included ? dynamicPrice * e.target.value : 0,
     });
   };
 
   return (
-    <MDBTable hover className="shadow">
-      <h1>TOTALS: {staticPage.staticTotal}</h1>
-      <MDBTableHead>
-        <tr>
-          <th>Feature</th>
-          <th>Quantity</th>
-          <th>Price</th>
-          <th>Include</th>
-          <th>Total</th>
-        </tr>
-      </MDBTableHead>
-      <MDBTableBody>
-        <tr>
-          <td>Static Pages</td>
-
-          <td>
-            <input
-              style={{ width: 25 }}
-              type="text"
-              value={staticPage.quantity}
-              onChange={handleStaticPriceQuantity}
-            />
-          </td>
-
-          <td>${staticPrice}/Page</td>
-          <td>
-            <input
-              style={{ width: 25 }}
-              type="checkbox"
-              checked={staticPage.included}
-              onChange={handleStaticPriceInclude}
-            />
-          </td>
-          <td>${staticPage.staticTotal}</td>
-        </tr>
-        <tr>
-          <td>DynamicPages</td>
-
-          <td>
-            <input style={{ width: 25 }} type="text" />
-          </td>
-
-          <td>${dynamicPrice}/Page</td>
-          <td>
-            <input
-              style={{ width: 25 }}
-              type="checkbox"
-              checked={dynamicPage.included}
-              onChange={handleDynamicPriceInclude}
-            />
-          </td>
-          <td>$VAR</td>
-        </tr>
-      </MDBTableBody>
-    </MDBTable>
+    <div>
+      <MDBTable hover className="shadow">
+        <MDBTableHead>
+          <tr>
+            <th>Feature</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Include</th>
+            <th>Total</th>
+          </tr>
+        </MDBTableHead>
+        <MDBTableBody>
+          <TableRow
+            title="Static Page"
+            quantity={staticPage.quantity}
+            handleQuantity={handleStaticPriceQuantity}
+            price={staticPrice}
+            included={staticPage.included}
+            handleIncluded={handleStaticPriceInclude}
+            total={staticPage.staticTotal}
+            quantityField={true}
+          />
+          <TableRow
+            title="Dynamic Page"
+            quantity={dynamicPage.quantity}
+            handleQuantity={handleDynamicPriceQuantity}
+            price={dynamicPrice}
+            included={dynamicPage.included}
+            handleIncluded={handleDynamicPriceInclude}
+            total={dynamicPage.dynamicTotal}
+            quantityField={true}
+          />
+          <TableRow
+            title="Login Feature"
+            included={login.included}
+            handleIncluded={handleLoginPriceInclude}
+            total={login.total}
+            quantityField={false}
+          />
+        </MDBTableBody>
+      </MDBTable>
+      <div className="tableTotal">
+        <h5>
+          <strong>
+            TOTAL PRICE:{" $"}
+            {staticPage.staticTotal + dynamicPage.dynamicTotal + login.total}
+          </strong>
+        </h5>
+      </div>
+    </div>
   );
 };
 
