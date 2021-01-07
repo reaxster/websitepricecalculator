@@ -6,6 +6,8 @@ import Home from "./pages/Home";
 import Calculator from "./pages/Calculator";
 import Boundles from "./pages/Boundles";
 import "./index.css";
+import PageNotFound from "./pages/PageNotFound";
+import Prices from "./pages/Prices";
 import { Switch, Route } from "react-router-dom";
 
 class App extends Component {
@@ -18,6 +20,8 @@ class App extends Component {
             <Route exact path="/" component={() => <Home />} />
             <Route exact path="/bundles" component={() => <Boundles />} />
             <Route exact path="/calculator" component={() => <Calculator />} />
+            <Route exact path="/prices" component={() => <Prices />}></Route>
+            <Route path="/" component={() => <PageNotFound />}></Route>
           </Switch>
         </div>
         <Footer />

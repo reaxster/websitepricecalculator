@@ -38,3 +38,44 @@
 .centerText {
   text-align: center;
 }
+
+/*PAGE NOT FOUND*/
+.pageNotFound {
+  background: #eeeeee;
+}
+
+.pageNotFound401 {
+  font-size: 10rem;
+  font-weight: bold;
+}
+
+.pageNotFound401Msj {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.pageNotFoundMsj {
+  text-align: center;
+}
+
+/***********PRICES************/
+.prices {
+  background: #80deea;
+}
+.pricesHeader {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.pricesMsj1 {
+  margin-top: 20px;
+  font-size: 2rem;
+  font-style: italic;
+  text-align: center;
+}
+.pricesMsj2 {
+  margin-top: 20px;
+  font-size: 1rem;
+  font-style: italic;
+  text-align: center;
+}
