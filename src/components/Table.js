@@ -2,39 +2,67 @@ import React, { useState } from "react";
 import { MDBTable, MDBTableBody, MDBTableHead } from "mdbreact";
 
 import TableRow from "./TableRow.js";
+import TableNotes from "./TableNotes";
 import "./components.css";
+import PRICES from "../constants/PRICES";
 
 const Table = () => {
-  const staticPrice = 50;
-  const dynamicPrice = 200;
-  const loginPrice = 200;
-  const regSupport = 50;
-  const hostingSupport = 50;
-  const maintenanceSupport = 50;
   const [staticPage, setStaticPage] = useState({
     quantity: 0,
     included: false,
-    staticTotal: 0,
   });
   const [dynamicPage, setDynamicPage] = useState({
     quantity: 0,
     included: false,
-    dynamicTotal: 0,
   });
+
+  const staticPrice =
+    staticPage.quantity + dynamicPage.quantity > 15 &&
+    staticPage.included &&
+    dynamicPage.included
+      ? PRICES.staticPrice2
+      : PRICES.staticPrice;
+  const dynamicPrice =
+    staticPage.quantity + dynamicPage.quantity > 15 &&
+    staticPage.included &&
+    dynamicPage.included
+      ? PRICES.dynamicPrice2
+      : PRICES.dynamicPrice;
+  const loginPrice = PRICES.loginPrice;
+  const databasePrice = PRICES.databasePrice;
+  const supportPrice = PRICES.supportPrice;
 
   const [login, setLogin] = useState({
     included: false,
     total: 0,
   });
+  const [database, setDatabase] = useState({
+    included: false,
+    total: 0,
+  });
 
-  const [reg, setReg] = useState(false);
-  const [hosting, setHosting] = useState(false);
-  const [maintenance, setMaintenance] = useState(false);
+  const [support, setSupport] = useState({
+    included: false,
+    total: 0,
+  });
 
+  const handleSupportPriceInclude = () => {
+    setSupport({
+      included: !support.included,
+      total: !support.included ? supportPrice : 0,
+    });
+  };
+
+  const handleDatabasePriceInclude = () => {
+    setDatabase({
+      included: !database.included,
+      total: !database.included ? databasePrice : 0,
+    });
+  };
   const handleLoginPriceInclude = () => {
     setLogin({
       included: !login.included,
-      total: !login.included && !isNaN(staticPage.quantity) ? loginPrice : 0,
+      total: !login.included ? loginPrice : 0,
     });
   };
 
@@ -42,10 +70,6 @@ const Table = () => {
     setStaticPage({
       quantity: staticPage.quantity,
       included: !staticPage.included,
-      staticTotal:
-        !staticPage.included && !isNaN(staticPage.quantity)
-          ? staticPrice * staticPage.quantity
-          : 0,
     });
   };
 
@@ -53,19 +77,22 @@ const Table = () => {
     setStaticPage({
       quantity: !isNaN(e.target.value) ? parseInt(e.target.value) : 0,
       included: staticPage.included,
-      staticTotal: staticPage.included ? staticPrice * e.target.value : 0,
     });
   };
+  const staticTotal =
+    staticPage.included && !isNaN(staticPage.quantity)
+      ? staticPrice * staticPage.quantity
+      : 0;
 
-  //TODO:--------------------------------------
+  const dynamicTotal =
+    dynamicPage.included && !isNaN(dynamicPage.quantity)
+      ? dynamicPrice * dynamicPage.quantity
+      : 0;
+
   const handleDynamicPriceInclude = () => {
     setDynamicPage({
       quantity: dynamicPage.quantity,
       included: !dynamicPage.included,
-      dynamicTotal:
-        !dynamicPage.included && !isNaN(dynamicPage.quantity)
-          ? dynamicPrice * dynamicPage.quantity
-          : 0,
     });
   };
 
@@ -73,7 +100,6 @@ const Table = () => {
     setDynamicPage({
       quantity: !isNaN(e.target.value) ? parseInt(e.target.value) : 0,
       included: dynamicPage.included,
-      dynamicTotal: dynamicPage.included ? dynamicPrice * e.target.value : 0,
     });
   };
 
@@ -97,7 +123,7 @@ const Table = () => {
             price={staticPrice}
             included={staticPage.included}
             handleIncluded={handleStaticPriceInclude}
-            total={staticPage.staticTotal}
+            total={staticTotal}
             quantityField={true}
           />
           <TableRow
@@ -107,14 +133,31 @@ const Table = () => {
             price={dynamicPrice}
             included={dynamicPage.included}
             handleIncluded={handleDynamicPriceInclude}
-            total={dynamicPage.dynamicTotal}
+            total={dynamicTotal}
             quantityField={true}
           />
           <TableRow
             title="Login Feature"
             included={login.included}
+            price={loginPrice}
             handleIncluded={handleLoginPriceInclude}
             total={login.total}
+            quantityField={false}
+          />
+          <TableRow
+            title="Database"
+            included={database.included}
+            price={databasePrice}
+            handleIncluded={handleDatabasePriceInclude}
+            total={database.total}
+            quantityField={false}
+          />
+          <TableRow
+            title="Support Service"
+            included={support.included}
+            price={supportPrice}
+            handleIncluded={handleSupportPriceInclude}
+            total={support.total}
             quantityField={false}
           />
         </MDBTableBody>
@@ -123,10 +166,17 @@ const Table = () => {
         <h5>
           <strong>
             TOTAL PRICE:{" $"}
-            {staticPage.staticTotal + dynamicPage.dynamicTotal + login.total}
+            {staticTotal +
+              dynamicTotal +
+              login.total +
+              database.total +
+              support.total}
           </strong>
         </h5>
       </div>
+      <hr />
+      <TableNotes />
+      <hr />
     </div>
   );
 };

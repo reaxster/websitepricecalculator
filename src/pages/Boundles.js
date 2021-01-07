@@ -4,6 +4,7 @@ import BoundleData from "../data/BoundleData";
 import { MDBContainer, MDBBtn } from "mdbreact";
 import "./pages.css";
 import { Link } from "react-router-dom";
+import BundleNotes from "../components/BundleNotes";
 const Boundles = () => {
   const allOffers = BoundleData.data.map((data) => <Boundle data={data} />);
   return (
@@ -11,8 +12,12 @@ const Boundles = () => {
       <MDBContainer className=" centerElementsColumn wideContainer shadow">
         <div>
           <h1 className="my-5">Bundles For You!</h1>
+          <hr />
         </div>
+
         <div className="centerElementsRow"> {allOffers}</div>
+
+        <BundleNotes />
         <div className=" centerElementsColumn my-5">
           <h4>Don't Like Our Bundles?</h4>
           <h5>Build Your Own Custom Bundle</h5>

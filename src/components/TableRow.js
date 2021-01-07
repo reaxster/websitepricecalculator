@@ -18,7 +18,7 @@ const TableRow = (props) => {
 
       <td>{quantity}</td>
 
-      <td>${props.price}/Page</td>
+      <td>${props.price}</td>
       <td>
         <input
           style={{ width: 25 }}

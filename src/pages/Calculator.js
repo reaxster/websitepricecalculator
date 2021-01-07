@@ -14,7 +14,9 @@ const Cakculator = () => {
           After finishing, you can save your custom bundle to compare with other
           offers from other developers
         </h5>
+
         <div className="wide">
+          <hr />
           <Table className="m-5 p-5 wideContainer" />
         </div>
 
