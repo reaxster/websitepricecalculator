@@ -4,6 +4,11 @@
   border: solid red 3px;
 }
 
+.shadow {
+  /* offset-x | offset-y | blur-radius | spread-radius | color */
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
 .centerElements {
   width: 100%;
   display: flex;

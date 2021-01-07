@@ -31,7 +31,7 @@ class Header extends Component {
           </MDBNavbarNav>
           <MDBNavbarNav right>
             <MDBNavItem>
-              <MDBNavLink to="/boundles">Bundles</MDBNavLink>
+              <MDBNavLink to="/bundles">Bundles</MDBNavLink>
             </MDBNavItem>
             <MDBNavItem>
               <MDBNavLink to="/prices">Prices</MDBNavLink>
