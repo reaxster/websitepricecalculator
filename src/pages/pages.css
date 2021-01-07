@@ -1,0 +1,35 @@
+/*GLOBAL*/
+.test1 {
+  border: 5px solid blue;
+}
+
+.shadow {
+  /* offset-x | offset-y | blur-radius | spread-radius | color */
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+.wideContainer {
+  width: 100%;
+  min-height: 80vh;
+  margin-top: 2em;
+}
+
+.centerElementsColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.centerElementsRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.centerText {
+  text-align: center;
+}
